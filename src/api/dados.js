@@ -666,3 +666,27 @@ export function getExercicios() {
     },
   ];
 }
+
+export function getVideoAulas() {
+  return [
+    {
+      id: 1,
+      titulo: 'sen30°=1/2 ✅ Tá! Mas por quê?😎 #1',
+      videoId: 'wXW-6qZtYQY',
+    },
+    {
+      id: 2,
+      titulo:
+        'Cosseno de 60 graus é igual a 0,5 ? De onde retiraram esse valor ?',
+      videoId: 'kUpxzYf-Iz4',
+    },
+    {
+      id: 3,
+      titulo: 'Você sabe por que tangente de 45 graus é igual a 1 ?',
+      videoId: '70SIKC2pDcc',
+    },
+    
+  ];
+}
+
+

@@ -13,6 +13,7 @@ import VideoScreen from '../screens/VideoScreen';
 import LogoTitle from '../components/LogoTitle';
 import { Text, ActivityIndicator } from 'react-native';
 import Exercicio from '../screens/Exercicio';
+import SobreScreen from '../screens/SobreScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -54,9 +55,11 @@ export default function DrawerNavigator() {
         headerRight: () => <LogoTitle />,
       }}>
       <Drawer.Screen name="Inicio" component={TabNavigator} />
-      <Drawer.Screen name="Exercícios" component={ExerciciosScreen} />
+      <Drawer.Screen name="Exercícios" component={Exercicio} />
+      <Drawer.Screen name="Todos os Exercícios" component={ExerciciosScreen} />
       <Drawer.Screen name="Video aulas" component={VideoScreen} />
       <Drawer.Screen name="Jogos" component={JogosScreen} />
+      <Drawer.Screen name="Sobre" component={SobreScreen} />
       
     </Drawer.Navigator>
   );

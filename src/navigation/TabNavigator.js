@@ -32,7 +32,7 @@ export default function TabNavigator() {
 			/>
 			<Tab.Screen
 				name="Exercícios"
-				component={ExerciciosScreen}
+				component={Exercicio}
 				options={{
 					tabBarIcon: ({ color, size }) => <MaterialIcons name="calculate" color={color} size={size} />,
 				}}
@@ -44,6 +44,7 @@ export default function TabNavigator() {
 					tabBarIcon: ({ color, size }) => <MaterialIcons name="tv" color={color} size={size} />,
 				}}
 			/>
+			
 		</Tab.Navigator>
 	);
 }

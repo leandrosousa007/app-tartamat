@@ -1,12 +1,15 @@
 import React, { useContext} from 'react';
-import { Button, Text, View, Image, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { Button, Text, View, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 
 export default function HomeScreen({ navigation }) {
   const { user, logout,contadorFeitos,porcentagem } = useContext(AuthContext);
 
   return (
-    <View style={styles.container}>
+
+    <ScrollView style={styles.container}>
+
+      
       {/* Seção do Usuário */}
       <View style={styles.userSection}>
         <Image
@@ -45,7 +48,7 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate('Video Aulas')}
         >
           <Text style={styles.buttonText}>Assitir</Text>
-
+    
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -69,7 +72,7 @@ export default function HomeScreen({ navigation }) {
     </TouchableOpacity>
 
 
-    </View>
+    </ScrollView>
   );
 }
 

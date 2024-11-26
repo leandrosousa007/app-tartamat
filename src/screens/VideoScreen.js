@@ -1,54 +1,44 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  Alert,
+} from 'react-native';
+import YoutubeIframe from 'react-native-youtube-iframe';
+import { getVideoAulas } from '../api/dados';
 
 export default function VideoScreen() {
-  const aulas = [
-    {
-      id: 1,
-      titulo: 'Gráficos 1 grau',
-      descricao: 'Exercícios sobre',
-      imagem: 'https://via.placeholder.com/300', // Imagem de teste
-    },
-    {
-      id: 2,
-      titulo: 'Número 1 grau',
-      descricao: 'Exercícios sobre',
-      imagem: 'https://via.placeholder.com/300', // Imagem de teste
-    },
-    {
-      id: 3,
-      titulo: 'Funções Lineares',
-      descricao: 'Exercícios sobre',
-      imagem: 'https://via.placeholder.com/300', // Imagem de teste
-    },
-    {
-      id: 4,
-      titulo: 'Equações do 1º Grau',
-      descricao: 'Exercícios sobre',
-      imagem: 'https://via.placeholder.com/300', // Imagem de teste
-    },
-    {
-      id: 5,
-      titulo: 'Sistema de Equações',
-      descricao: 'Exercícios sobre',
-      imagem: 'https://via.placeholder.com/300', // Imagem de teste
-    },
-  ];
+  const [selectedVideoId, setSelectedVideoId] = useState(null); // Armazena o vídeo selecionado
+  const videoAulas = getVideoAulas(); // Obtém a lista de aulas
+  const width = Dimensions.get('window').width - 30; // Largura da janela para estilização
 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Aulas de Funções de 1 Grau</Text>
 
-      {aulas.map((aula) => (
+      {videoAulas.map((aula) => (
         <View key={aula.id} style={styles.aulaContainer}>
           <Text style={styles.aulaTitle}>{aula.titulo}</Text>
-          <Image source={{ uri: aula.imagem }} style={styles.image} />
           
-          <Text style={styles.aulaDescription}>{aula.descricao}</Text>
+          {/* Exibir vídeo no YouTube */}
+          <YoutubeIframe
+            videoId={aula.videoId}
+            height={200}
+            width={width}
+            onChangeState={(state) => console.log(`Status do vídeo: ${state}`)}
+          />
 
-          {/* Fundo branco com a mesma largura e altura um pouco maior */}
+          {/* Botão para fazer exercícios */}
           <View style={styles.buttonBackground}>
-            <TouchableOpacity style={styles.button} onPress={() => alert('Ir para os exercícios')}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => Alert.alert('Exercícios', 'Ir para os exercícios desta aula!')}
+            >
               <Text style={styles.buttonText}>Fazer Exercícios</Text>
             </TouchableOpacity>
           </View>
@@ -73,38 +63,26 @@ const styles = StyleSheet.create({
   aulaContainer: {
     backgroundColor: '#32620e', // Cor verde personalizada
     marginBottom: 20,
-    paddingTop:10,
     borderRadius: 10,
-    padding: 10,
+    padding: 15,
     alignItems: 'center',
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    borderRadius: 10,
-    marginBottom: 10, // Espaçamento entre a imagem e o texto
   },
   aulaTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 10,
-  },
-  aulaDescription: {
-    fontSize: 16,
-    color: '#fff',
-    marginVertical: 5,
+    marginBottom: 15,
   },
   buttonBackground: {
-    backgroundColor: '#f1f1f1', // Cor de fundo branco/cinza
+    backgroundColor: '#f1f1f1', // Fundo branco/cinza
     borderRadius: 10,
-    marginTop: 20, // Espaçamento adicional entre a descrição e o botão
-    width: '100%', // Largura igual à do contêiner verde
-    paddingVertical: 15, // Aumenta a altura do fundo
-    alignItems: 'center', // Centraliza o botão dentro da View
+    marginTop: 15, // Espaçamento entre o botão e o restante
+    width: '100%',
+    paddingVertical: 10,
+    alignItems: 'center',
   },
   button: {
-    backgroundColor: '#32620e', // Cor de fundo diferente para o botão
+    backgroundColor: '#32620e', // Fundo verde para o botão
     padding: 10,
     borderRadius: 5,
     width: '80%',

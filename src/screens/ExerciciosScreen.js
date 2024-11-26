@@ -1,11 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
-import { View, Text, FlatList, Pressable, Alert } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import styles from '../styles/styles';
-import { getExercicios } from '../api/exerciciosApi';
+import { getExercicios } from '../api/dados';
 import { CardQuestion } from '../components/CardQuestion';
 import { AuthContext } from '../context/AuthContext';
 
-export default function ExerciciosScreen() {
+export default function ExerciciosScreen({ route }) {
+  const { tipo } = route.params
+  
+  
   const { setContadorAcertos, setContadorFeitos, setQtdeExercicios } = useContext(AuthContext);
   const [exercicios, setExercicios] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -14,16 +17,20 @@ export default function ExerciciosScreen() {
   const [tempo, setTempo] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(true);
   const { contadorAcertos, contadorFeitos, qtdeExercicios } = useContext(AuthContext);
+  const [mudouTipo, setMudouTipo] = useState(false)
+  //setMudouTipo(!mudouTipo)
 
   useEffect(() => {
-    const fetchedExercicios = getExercicios().map(exercicio => ({
-      ...exercicio,
-      feito: false,
-      acertou: null,
-    }));
+    // const fetchedExercicios = getExercicios().map(exercicio => ({
+    //   ...exercicio,
+    //   feito: false,
+    //   acertou: null,
+    // }));
+    const fetchedExercicios = getExercicios().filter(ex => ex.feito == false && ex.nivel_dificuldade == tipo)
     setExercicios(fetchedExercicios);
     setQtdeExercicios(fetchedExercicios.length);  // Atualiza o total de exercícios no contexto
-  }, []);
+  }, [mudouTipo]);
+
 
   useEffect(() => {
     if (isTimerActive) {
