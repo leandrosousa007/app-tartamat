@@ -1,17 +1,22 @@
-import React, { useContext} from 'react';
-import { Button, Text, View, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useContext, useState} from 'react';
+import { Dimensions, Text, View, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
+import YoutubeIframe from 'react-native-youtube-iframe';
+import { getVideoAulas } from '../api/dados';
 
 export default function HomeScreen({ navigation }) {
   const { user, logout,contadorFeitos,porcentagem } = useContext(AuthContext);
+  const [selectedVideoId, setSelectedVideoId] = useState(null); // Armazena o vídeo selecionado
+  const videoAulas = getVideoAulas().filter((aula) => aula.id == 4); // Filtra vídeos até o ID 3
+  const width = Dimensions.get('window').width - 50; // Largura da janela para estilização
 
   return (
 
     <ScrollView style={styles.container}>
 
       
-      {/* Seção do Usuário */}
-      <View style={styles.userSection}>
+     {/* Seção do Usuário */}
+     <View style={styles.userSection}>
         <Image
           source={{ uri: user?.data?.user?.photo || 'https://via.placeholder.com/150' }}
           style={styles.profileImage}
@@ -34,11 +39,18 @@ export default function HomeScreen({ navigation }) {
         />
       </View>
 
-      {/* Vídeo ou Imagem */}
-      <Image
-        source={{ uri: 'https://via.placeholder.com/400x200' }}
-        style={styles.videoImage}
-      />
+      {videoAulas.map((aula) => (
+        <View key={aula.id} style={styles.aulaContainer}>
+ 
+        
+          <YoutubeIframe
+            videoId={aula.videoId}
+            height={220}
+            width={width}
+            onChangeState={(state) => console.log(`Status do vídeo: ${state}`)}
+          />
+          </View>
+        ))}
 
       {/* Botões */}
       <View style={styles.buttonContainer}>
@@ -47,7 +59,7 @@ export default function HomeScreen({ navigation }) {
         style={styles.button}
         onPress={() => navigation.navigate('Video Aulas')}
         >
-          <Text style={styles.buttonText}>Assitir</Text>
+          <Text style={styles.buttonText}>Assistir</Text>
     
         </TouchableOpacity>
         <TouchableOpacity
@@ -106,6 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#fff',
   },
+
   title: {
     fontSize: 20,
     fontWeight: 'bold',

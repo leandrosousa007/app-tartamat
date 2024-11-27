@@ -17,20 +17,20 @@ export default function ExerciciosScreen({ route }) {
   const [tempo, setTempo] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(true);
   const { contadorAcertos, contadorFeitos, qtdeExercicios } = useContext(AuthContext);
-  const [mudouTipo, setMudouTipo] = useState(false)
-  //setMudouTipo(!mudouTipo)
+  const [mudouTipo, setMudouTipo] = useState(false);
+ 
 
   useEffect(() => {
-    // const fetchedExercicios = getExercicios().map(exercicio => ({
-    //   ...exercicio,
-    //   feito: false,
-    //   acertou: null,
-    // }));
-    const fetchedExercicios = getExercicios().filter(ex => ex.feito == false && ex.nivel_dificuldade == tipo)
+    
+    const fetchedExercicios = getExercicios().filter(
+      (ex) => !ex.feito && ex.nivel_dificuldade === tipo
+    );
     setExercicios(fetchedExercicios);
-    setQtdeExercicios(fetchedExercicios.length);  // Atualiza o total de exercícios no contexto
+    setQtdeExercicios(fetchedExercicios.length);
+    setMudouTipo(!mudouTipo);
+     
   }, [mudouTipo]);
-
+  
 
   useEffect(() => {
     if (isTimerActive) {
@@ -100,7 +100,7 @@ export default function ExerciciosScreen({ route }) {
         <CardQuestion
           handlePress={handlePress}
           item={exercicios[currentQuestionIndex]} // Passando a questão atual
-          index={currentQuestionIndex + 1} // Exibindo o número da questão atual (1, 2, 3,...)
+          index={currentQuestionIndex} // Exibindo o número da questão atual (1, 2, 3,...)
           total={qtdeExercicios} // Passando o total de exercícios corretamente
         />
       )}

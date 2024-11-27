@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
@@ -14,8 +13,8 @@ import { getVideoAulas } from '../api/dados';
 
 export default function VideoScreen() {
   const [selectedVideoId, setSelectedVideoId] = useState(null); // Armazena o vídeo selecionado
-  const videoAulas = getVideoAulas(); // Obtém a lista de aulas
-  const width = Dimensions.get('window').width - 30; // Largura da janela para estilização
+  const videoAulas = getVideoAulas().filter((aula) => aula.id <= 3); // Filtra vídeos até o ID 3
+  const width = Dimensions.get('window').width - 50; // Largura da janela para estilização
 
   return (
     <ScrollView style={styles.container}>
@@ -23,8 +22,10 @@ export default function VideoScreen() {
 
       {videoAulas.map((aula) => (
         <View key={aula.id} style={styles.aulaContainer}>
-          <Text style={styles.aulaTitle}>{aula.titulo}</Text>
-          
+          <View style={styles.buttonBackground}>
+            <Text style={styles.aulaTitle}>{aula.titulo}</Text>
+          </View>
+
           {/* Exibir vídeo no YouTube */}
           <YoutubeIframe
             videoId={aula.videoId}
@@ -32,6 +33,7 @@ export default function VideoScreen() {
             width={width}
             onChangeState={(state) => console.log(`Status do vídeo: ${state}`)}
           />
+          
 
           {/* Botão para fazer exercícios */}
           <View style={styles.buttonBackground}>
@@ -68,10 +70,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   aulaTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 15,
+    color: '#000',
+    
+    
   },
   buttonBackground: {
     backgroundColor: '#f1f1f1', // Fundo branco/cinza
@@ -80,6 +83,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: 10,
     alignItems: 'center',
+    marginBottom:10,
   },
   button: {
     backgroundColor: '#32620e', // Fundo verde para o botão
@@ -91,5 +95,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
+  },
+  YoutubeIframe: {
+    borderRadius:10,
+
   },
 });
