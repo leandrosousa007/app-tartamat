@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#f8f9fa',
-    
   },
   title: {
     fontSize: 26,
@@ -73,6 +72,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   videoWrapper: {
+    backgroundColor: '#32620e', // Fundo verde para o vídeo
     overflow: 'hidden',
     borderRadius: 10,
     marginBottom: 15,
@@ -80,13 +80,15 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   button: {
-    backgroundColor: '#32620e',
+    backgroundColor: '#fff', // Fundo branco para o botão
     paddingVertical: 10,
     borderRadius: 8,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#32620e', // Cor do borda do botão
   },
   buttonText: {
-    color: '#fff',
+    color: '#32620e', // Texto verde para o botão
     fontSize: 16,
     fontWeight: 'bold',
   },
