@@ -7,7 +7,7 @@ import { getVideoAulas } from '../api/dados';
 export default function HomeScreen({ navigation }) {
   const { user, logout,contadorFeitos,porcentagem } = useContext(AuthContext);
   const [selectedVideoId, setSelectedVideoId] = useState(null); // Armazena o vídeo selecionado
-  const videoAulas = getVideoAulas().filter((aula) => aula.id == 4); // Filtra vídeos até o ID 3
+  const videoAulas = getVideoAulas().filter((aula) => aula.id == 3); // Filtra vídeos até o ID 3
   const width = Dimensions.get('window').width - 50; // Largura da janela para estilização
 
   return (

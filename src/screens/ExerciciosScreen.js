@@ -1,13 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import styles from '../styles/styles';
-import { getExercicios } from '../api/dados';
+import { getExercicios, getExerciciosFacil, getExerciciosMedio } from '../api/dados';
 import { CardQuestion } from '../components/CardQuestion';
 import { AuthContext } from '../context/AuthContext';
 
 export default function ExerciciosScreen({ route }) {
-  const { tipo } = route.params
-  
+  const { tipo } = route.params;
   
   const { setContadorAcertos, setContadorFeitos, setQtdeExercicios } = useContext(AuthContext);
   const [exercicios, setExercicios] = useState([]);
@@ -18,19 +17,23 @@ export default function ExerciciosScreen({ route }) {
   const [isTimerActive, setIsTimerActive] = useState(true);
   const { contadorAcertos, contadorFeitos, qtdeExercicios } = useContext(AuthContext);
   const [mudouTipo, setMudouTipo] = useState(false);
- 
+  const [isFinished, setIsFinished] = useState(false); // Para verificar se o usuário terminou todos os exercícios
 
   useEffect(() => {
-    
-    const fetchedExercicios = getExercicios().filter(
-      (ex) => !ex.feito && ex.nivel_dificuldade === tipo
-    );
-    setExercicios(fetchedExercicios);
-    setQtdeExercicios(fetchedExercicios.length);
-    setMudouTipo(!mudouTipo);
-     
-  }, [mudouTipo]);
-  
+    if (tipo == 1) {
+      const fetchedExercicios = getExerciciosFacil();
+      setExercicios(fetchedExercicios);
+      setQtdeExercicios(fetchedExercicios.length);
+    } else if (tipo == 2) {
+      const fetchedExercicios = getExerciciosMedio();
+      setExercicios(fetchedExercicios);
+      setQtdeExercicios(fetchedExercicios.length);
+    } else {
+      const fetchedExercicios = getExercicios();
+      setExercicios(fetchedExercicios);
+      setQtdeExercicios(fetchedExercicios.length);
+    }
+  }, [tipo]);
 
   useEffect(() => {
     if (isTimerActive) {
@@ -42,6 +45,8 @@ export default function ExerciciosScreen({ route }) {
   }, [isTimerActive]);
 
   const handlePress = (resposta, item) => {
+    if (isFinished) return; // Não permite responder após terminar
+
     setContadorFeitos(prev => prev + 1);
     setFeitos(prev => prev + 1);
 
@@ -66,6 +71,8 @@ export default function ExerciciosScreen({ route }) {
     // Avança para a próxima questão
     if (currentQuestionIndex < exercicios.length - 1) {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+    } else {
+      setIsFinished(true); // Marca como terminado quando chega à última questão
     }
   };
 
@@ -77,7 +84,7 @@ export default function ExerciciosScreen({ route }) {
       <Pressable style={styles.statButton}>
         <Text style={styles.statText}>Tempo: </Text>
         <Text style={[styles.statNumber, { backgroundColor: '#180ee3' }]}>
-        {formatTime(tempo)} {/* Alterado para tempo */}
+          {formatTime(tempo)} {/* Alterado para tempo */}
         </Text>
 
         <Text style={styles.statText}>Acertos</Text>
@@ -89,11 +96,7 @@ export default function ExerciciosScreen({ route }) {
         <Text style={[styles.statNumber, { backgroundColor: '#a0522d' }]}>
           {feitos} {/* Alterado para feitos */}
         </Text>
-        
-        
-
       </Pressable>
-
 
       {/* Renderizando a questão atual */}
       {exercicios.length > 0 && (
@@ -102,6 +105,7 @@ export default function ExerciciosScreen({ route }) {
           item={exercicios[currentQuestionIndex]} // Passando a questão atual
           index={currentQuestionIndex} // Exibindo o número da questão atual (1, 2, 3,...)
           total={qtdeExercicios} // Passando o total de exercícios corretamente
+          isDisabled={isFinished} // Desativa as opções de resposta quando terminar
         />
       )}
     </View>

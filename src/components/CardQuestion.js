@@ -1,63 +1,28 @@
-import { Text, View, Pressable } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; // Import FontAwesome for icons
-import styles from '../styles/styles';
-
-const getDifficultyColor = level => {
-  switch (level) {
-    case 'facil':
-      return '#4CAF50'; // Green
-    case 'medio':
-      return '#FFEB3B'; // Yellow
-    case 'dificil':
-      return '#F44336'; // Red
-    default:
-      return '#000'; // Default black
-  }
-};
-
-export const CardQuestion = ({ handlePress, item, index, total }) => {
+export function CardQuestion({ item, index, total, handlePress, isDisabled }) {
   return (
-    <View
-      style={[
-        styles.fullScreenItemContainer,
-        { backgroundColor: item.feito ? '#bbb' : '#fff' },
-      ]}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 20,
-        }}>
-        <View style={styles.progressBarContainer}>
-          <FontAwesome
-            name="tasks"
-            size={16}
-            color={item.feito && item.acertou == false ? 'red' : 'black'}
-          />
-          <Text style={styles.progressText}>
-            {index + 1} | {total}
-          </Text>
-        </View>
-        <View
-          style={[
-            styles.difficultyCircle,
-            { backgroundColor: getDifficultyColor(item.nivel_dificuldade) },
-          ]}>
-          <Text style={styles.difficultyText}>{item.nivel_dificuldade}</Text>
-        </View>
-      </View>
-      <Text style={styles.highlightedQuestion}>{item.pergunta}</Text>
-      <View style={styles.optionsContainer}>
-        {item.respostas.map((resposta, idx) => (
-          <Pressable
-            key={idx}
-            onPress={() => handlePress(resposta, item)}
-            style={styles.optionButton}>
-            <Text style={styles.optionText}>{resposta.texto}</Text>
-          </Pressable>
-        ))}
-      </View>
+    <View style={styles.questionCard}>
+      <Text style={styles.questionNumber}>Pergunta {index + 1} de {total}</Text>
+      <Text style={styles.questionText}>{item.pergunta}</Text>
+
+      {item.respostas.map((resposta) => (
+        <Pressable
+          key={resposta.id}
+          style={[styles.answerButton, isDisabled && styles.disabledButton]} // Adiciona o estilo disabled
+          onPress={() => !isDisabled && handlePress(resposta, item)} // Não permite resposta se desativado
+          disabled={isDisabled} // Desabilita o botão
+        >
+          <Text style={styles.answerText}>{resposta.texto}</Text>
+        </Pressable>
+      ))}
     </View>
   );
-};
+}
+
+const styles = StyleSheet.create({
+  answerButton: {
+    // Estilo normal do botão de resposta
+  },
+  disabledButton: {
+    backgroundColor: '#ccc', // Cor de fundo para indicar que o botão está desativado
+  },
+});

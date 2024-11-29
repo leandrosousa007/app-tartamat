@@ -11,7 +11,7 @@ import ExerciciosScreen from '../screens/ExerciciosScreen';
 import JogosScreen from '../screens/JogosScreen';
 import VideoScreen from '../screens/VideoScreen';
 import LogoTitle from '../components/LogoTitle';
-import { Text, ActivityIndicator } from 'react-native';
+import { Text, ActivityIndicator, Image } from 'react-native';
 import Exercicio from '../screens/Exercicio';
 import SobreScreen from '../screens/SobreScreen';
 
@@ -41,16 +41,12 @@ export default function DrawerNavigator() {
         headerStyle: { backgroundColor: '#32620e' },
         headerTitleAlign: 'center',
         headerTitle: () => (
-          <Text
-            style={{
-              fontSize: 35,
-              fontWeight: '600',
-              color: 'white',
-              paddingRight: 16,
-              fontFamily: 'Cursive',
-            }}>
-            Tartamat
-          </Text>
+          <Image 
+          style={{ width: 200,
+           height: 200,
+            marginRight: 10 }} 
+            resizeMode="contain"
+            source={require("../../assets/1.png")} />
         ),
         headerRight: () => <LogoTitle />,
       }}>

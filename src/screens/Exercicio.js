@@ -14,22 +14,25 @@ export default function Exercicio({ navigation }) {
         
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Todos os Exercícios', { tipo: 'facil' })}
+          onPress={() => navigation.navigate('Todos os Exercícios', { tipo: 1 })}
         >
-          <Text style={styles.buttonText}>Exercícios sobre Graficos</Text>
+          <Text style={styles.buttonText}>Exercícios Básicos sobre Funções</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Todos os Exercícios', { tipo: 'medio' })}
+          onPress={() => navigation.navigate('Todos os Exercícios', { tipo: 2 })}
         >
-          <Text style={styles.buttonText}>Exercícios sobre...</Text>
+          <Text style={styles.buttonText}>Exercícios Sobre Gráficos</Text>
         </TouchableOpacity>
+
+
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Todos os Exercícios', { tipo: 'dificil' })}
+          onPress={() => navigation.navigate('Todos os Exercícios', { tipo: 3 })}
         >
-          <Text style={styles.buttonText}>Exercícios sobre</Text>
+          <Text style={styles.buttonText}>Todos os Exercícios</Text>
         </TouchableOpacity>
+        
       </ScrollView>
 
 
