@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { useState, useEffect, useContext, } from 'react';
+import { View, Text, Pressable, Image } from 'react-native';
 import styles from '../styles/styles';
 import { getExercicios, getExerciciosFacil, getExerciciosMedio } from '../api/dados';
 import { CardQuestion } from '../components/CardQuestion';

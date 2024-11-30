@@ -2,9 +2,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from "@expo/vector-icons";
 import HomeScreen from "../screens/HomeScreen";
 import EstatisticasScreen from "../screens/EstatisticasScreen";
-import ExerciciosScreen from "../screens/ExerciciosScreen";
+import ResumoScreen from "../screens/ResumoScreen";
 import VideoScreen from "../screens/VideoScreen";
 import Exercicio from "../screens/Exercicio";
+import ExerciciosScreen from "../screens/ExerciciosScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -38,12 +39,20 @@ export default function TabNavigator() {
 				}}
 			/>
 			<Tab.Screen
+				name="Resumo"
+				component={ResumoScreen}
+				options={{
+					tabBarIcon: ({ color, size }) => <MaterialIcons name="book" color={color} size={size} />,
+				}}
+			/>
+			<Tab.Screen
 				name="Video Aulas"
 				component={VideoScreen}
 				options={{
 					tabBarIcon: ({ color, size }) => <MaterialIcons name="tv" color={color} size={size} />,
 				}}
 			/>
+			
 			
 		</Tab.Navigator>
 	);

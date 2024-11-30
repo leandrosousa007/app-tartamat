@@ -1,7 +1,6 @@
-import { Text, View, Pressable } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; // Import FontAwesome for icons
-
-import styles from '../styles/styles.js';
+import React from 'react';
+import { Text, View, Pressable, StyleSheet, Image } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 const getDifficultyColor = level => {
   switch (level) {
@@ -19,17 +18,9 @@ const getDifficultyColor = level => {
 export const CardQuestion = ({ handlePress, item, index, total }) => {
   return (
     <View
-      style={[
-        styles.fullScreenItemContainer,
-        { backgroundColor: item.feito ? '#bbb' : '#fff' },
-      ]}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 20,
-        }}>
+      style={[styles.fullScreenItemContainer, { backgroundColor: item.feito ? '#bbb' : '#fff' }]}>
+      
+      <View style={styles.header}>
         <View style={styles.progressBarContainer}>
           <FontAwesome
             name="tasks"
@@ -41,14 +32,24 @@ export const CardQuestion = ({ handlePress, item, index, total }) => {
           </Text>
         </View>
         <View
-          style={[
-            styles.difficultyCircle,
-            { backgroundColor: getDifficultyColor(item.nivel_dificuldade) },
-          ]}>
+          style={[styles.difficultyCircle, { backgroundColor: getDifficultyColor(item.nivel_dificuldade) }]}>
           <Text style={styles.difficultyText}>{item.nivel_dificuldade}</Text>
         </View>
       </View>
+      
       <Text style={styles.highlightedQuestion}>{item.pergunta}</Text>
+      
+      {/* Verifique se a imagem local carrega com Image padrão */}
+      {item.imagem && (
+        <Image 
+          source={item.imagem}  // Certifique-se de usar o require corretamente
+          style={styles.image}
+          resizeMode="contain"  // Ajuste para preservar a proporção
+        />
+      )}
+
+      <Text style={styles.espaço}></Text>
+
       <View style={styles.optionsContainer}>
         {item.respostas.map((resposta, idx) => (
           <Pressable
@@ -62,3 +63,61 @@ export const CardQuestion = ({ handlePress, item, index, total }) => {
     </View>
   );
 };
+
+// Estilos básicos para imagens
+const styles = StyleSheet.create({
+  fullScreenItemContainer: {
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  progressBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  progressText: {
+    fontSize: 14,
+  },
+  difficultyCircle: {
+    padding: 5,
+    borderRadius: 50,
+  },
+  difficultyText: {
+    fontSize: 12,
+    color: '#fff',
+  },
+  highlightedQuestion: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  image: {
+    width: 200,  // Ajuste a largura para ver se a imagem aparece
+    height: 200, // Ajuste a altura conforme necessário
+    marginBottom: 10,
+    marginLeft: 6,
+  },
+  espaço: {
+    height: 10,
+  },
+  optionsContainer: {
+    marginTop: 10,
+  },
+  optionButton: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    marginBottom: 5,
+    borderRadius: 5,
+  },
+  optionText: {
+    fontSize: 14,
+  },
+});
+
+export default CardQuestion;
