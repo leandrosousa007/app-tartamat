@@ -39,8 +39,8 @@ function EstatisticasScreen() {
           flexWrap: 'wrap',
         }}>
         <Pressable style={styles.statButton}>
-          <Text style={styles.statText}>Feitos</Text>
-          <Text style={[styles.statNumber, { backgroundColor: '#a0522d' }]}>
+          <Text style={styles.statText}>Não Feitos</Text>
+          <Text style={[styles.statNumber, { backgroundColor: '#6a5acd' }]}>
             {contadorFeitos}
           </Text>
 
